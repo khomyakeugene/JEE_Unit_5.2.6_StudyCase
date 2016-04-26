@@ -6,5 +6,10 @@
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <bean id="logAspect" class="com.company.tasks.LogAspect"/>
-    <aop:aspectj-autoproxy/>
+    <aop:config>
+        <aop:pointcut id="executorExecute" expression="execution(* com.company.tasks.Executor.execute())"/>
+        <aop:aspect ref="logAspect">
+            <aop:around pointcut-ref="executorExecute" method="onExecute"/>
+        </aop:aspect>
+    </aop:config>
 </beans>
