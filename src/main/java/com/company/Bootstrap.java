@@ -15,7 +15,6 @@ public class Bootstrap {
         Bootstrap bootstrap = applicationContext.getBean("bootstrap", Bootstrap.class);
 
         bootstrap.execute();
-        bootstrap.execute();
     }
 
     private void execute() throws Exception {

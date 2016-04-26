@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
+<!--
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+-->
     <bean id="bootstrap" class="com.company.Bootstrap">
         <property name="taskProvider" ref="taskProvider"/>
         <property name="executorFactory" ref="executorFactory"/>
@@ -12,11 +19,14 @@
     <bean id="executorFactory" class="com.company.tasks.ExecutorFactory">
         <lookup-method name="getNumberExecutor" bean="taskExecutor"/>
     </bean>
-<!--
-    <bean id="executorInterceptor" class="com.company.tasks.ExecutorInterceptor"/>
-    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
-        <property name="beanNames" value="*Executor"/>
-        <property name="interceptorNames" value="executorInterceptor"/>
-    </bean>
-    -->
+
+    <bean id="logAspect" class="com.company.tasks.LogAspect"/>
+    <aop:aspectj-autoproxy/>
+    <aop:config>
+        <aop:pointcut id="executorExecute" expression="execution( * com.company.tasks.TaskExecutor.execute())"/>
+        <aop:aspect ref="logAspect">
+            <aop:around pointcut-ref="executorExecute" method="onExecute"/>
+        </aop:aspect>
+    </aop:config>
+
 </beans>
