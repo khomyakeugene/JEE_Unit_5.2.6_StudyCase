@@ -13,4 +13,5 @@
         <lookup-method name="getNumberExecutor" bean="taskExecutor"/>
     </bean>
 
+    <import resource="aop-context.xml"/>
 </beans>
