@@ -12,10 +12,11 @@
     <bean id="executorFactory" class="com.company.tasks.ExecutorFactory">
         <lookup-method name="getNumberExecutor" bean="taskExecutor"/>
     </bean>
-
+<!--
     <bean id="executorInterceptor" class="com.company.tasks.ExecutorInterceptor"/>
     <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
         <property name="beanNames" value="*Executor"/>
         <property name="interceptorNames" value="executorInterceptor"/>
     </bean>
+    -->
 </beans>
